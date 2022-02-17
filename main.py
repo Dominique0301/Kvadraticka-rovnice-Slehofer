@@ -1,17 +1,20 @@
 from os.path import basename, splitext
+import math
 import tkinter as tk
+from tkinter import IntVar
 import random
-from tkinter.constants import END
 #from typing_extensions import IntVar
-from xml.dom.minidom import Entity
-
-# from tkinter import ttk
-#Dominik Šlehofer
+import numpy as np
+from matplotlib import pyplot as plt
+from tkinter.constants import END
+from tkinter import messagebox, filedialog, colorchooser
+#from typing_extensions import IntVar
+#from xml.dom.minidom import Entity
 
 class Application(tk.Tk):
     name = basename(splitext(basename(__file__.capitalize()))[0])
-    name = "Matematická Hra"
-    #tk.geometry(150*200)
+    name = "Kvadartická funkce"
+    
 
 
     def __init__(self):
@@ -19,69 +22,33 @@ class Application(tk.Tk):
         self.title(self.name)
         self.bind("<Escape>", self.quit)
         self.lbl = tk.Label(self, text="")
-        self.generuj()
-        self.vysledek_vstup = tk.Entry(self)
-        self.vysledek_vstup.grid(row=3, column=1)
-        self.lbl_hodnoceni = tk.Label(self, text="")
-        self.lbl_hodnoceni.grid(row=4,column=1)
-        self.btn3 = tk.Button(self, text="Kontrola", command=self.kontrola)
-        self.btn3.grid(row=5, column=1)
+        self.lbl.grid(row=1, column=2)
+        #self.a_vstup = IntVar()
+        self.a_vstup = tk.Entry(self)
+        self.a_vstup.grid(row=2, column=2, padx=10, pady=10)
+        #self.b_vstup = IntVar()
+        self.b_vstup = tk.Entry(self)
+        self.b_vstup.grid(row=4, column=2, padx=10, pady=10)
+       # self.c_vstup = IntVar()
+        self.c_vstup = tk.Entry(self)
+        self.c_vstup.grid(row=6, column=2, padx=10, pady=10)
+        self.btn=tk.Button(self, text="vysledek", command=self.diskriminant)
+        self.btn.grid(row=8,column=2)
+        self.geometry("400x500")
 
+    
 
+    def diskriminant(self):
+       self.d = float((self.b_vstup.get()**2)) - float((4*self.a_vstup.get()*self.c_vstup.get()))
+       self.lbl.config(text=self.d)
 
-    def plus(self):
-        self.cisloA = random.randint(1,99)
-        self.cisloB = random.randint(1,100-self.cisloA)#aby vysledek nebyl větší než 100
-        self.vysledek = self.cisloA + self.cisloB
-        return str(self.cisloA)+"+"+str(self.cisloB)
-
-
-    def minus(self):
-        self.cisloA = random.randint(1,99)
-        self.cisloB = random.randint(1,self.cisloA)
-        self.vysledek = self.cisloA - self.cisloB
-        return str(self.cisloA)+"-"+str(self.cisloB)
-
-
-
-
-
-    def krat(self):
-        self.cisloA = random.randint(1,10)
-        self.cisloB = random.randint(1,10)
-        self.vysledek = self.cisloA * self.cisloB
-        return str(self.cisloA)+"*"+str(self.cisloB)
-
+    def reseni(self):
+        self.res1 = (-self.b_vstup.get()+math.sqrt(self.d)) / (2*self.a_vstup.get())
+        self.res2 = (-self.b_vstup.get()-math.sqrt(self.d)) / (2*self.a_vstup.get())
         
 
 
-    def deleno(self):
-        self.vysledek = random.randint(1,10)
-        self.cisloB = random.randint(1,10)
-        self.cisloA = self.vysledek * self.cisloB
-        return str(self.cisloA)+ "/" +str(self.cisloB)
-
-
-
-    def generuj(self):
-        self.funkce = random.choice([self.plus,self.minus,self.krat,self.deleno])
-        self.priklad = self.funkce()
-        self.lbl.config(text= self.priklad)
-        self.lbl.grid(row=1,column=1)
         
-
-
-
-    def kontrola(self):
-        if int(self.vysledek_vstup.get()) == int(self.vysledek):
-            self.lbl_hodnoceni.config(text="SPRÁVNĚ")
-        else:
-            self.lbl_hodnoceni.config(text="ŠPATNĚ")
-        self.generuj()
-        self.vysledek_vstup.delete(0,END)
-        
-
-
 
 
 
