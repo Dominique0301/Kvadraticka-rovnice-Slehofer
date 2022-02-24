@@ -49,6 +49,9 @@ class Application(tk.Tk):
         self.c_vstup = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
         self.c_vstup.grid(row=6, column=2, padx=10, pady=10)
 
+        self.lblGraf=tk.Button(self, text="",command=self.graf)
+        self.lblGraf.grid(row=8,column=3)
+
 
         self.btn=tk.Button(self, text="Diskriminant", command=self.diskriminant)
         self.btn.grid(row=8,column=2)
@@ -82,10 +85,20 @@ class Application(tk.Tk):
         self.res2 = (-int(self.b_vstup.get())-math.sqrt(self.d)) / (2*int(self.a_vstup.get()))
         self.lblx1.config(text=self.res1)
         self.lblx2.config(text=self.res2)
-        
 
 
-        
+    """def f(self, x):
+        return (int(self.a_vstup.get())*(x**2))+(self.b_vstup.get()*x)+int(self.c_vstup.get())"""
+
+
+    def graf(self):
+        self.roots = [self.res1, self.res2]
+        self.x = np.linspace(self.res2, self.res1, 100)
+        #self.roots= np.array([self.res1, self.res2])
+        self.y = self.x**2
+        plt.plot(self.x, self.y)
+        plt.show()
+
 
 
 
