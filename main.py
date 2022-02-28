@@ -6,7 +6,7 @@ from tkinter import IntVar
 import random
 #from typing_extensions import IntVar
 import numpy as np
-from matplotlib import pyplot as plt
+from matplotlib import markers, pyplot as plt
 from tkinter.constants import END
 from tkinter import messagebox, filedialog, colorchooser
 import sympy as sym
@@ -49,7 +49,7 @@ class Application(tk.Tk):
         self.c_vstup = tk.Entry(self, validate="key", validatecommand=(self.register(self.validate), "%P"))
         self.c_vstup.grid(row=6, column=2, padx=10, pady=10)
 
-        self.lblGraf=tk.Button(self, text="",command=self.graf)
+        self.lblGraf=tk.Button(self, text="graf",command=self.graf)
         self.lblGraf.grid(row=8,column=3)
 
 
@@ -87,16 +87,18 @@ class Application(tk.Tk):
         self.lblx2.config(text=self.res2)
 
 
-    """def f(self, x):
-        return (int(self.a_vstup.get())*(x**2))+(self.b_vstup.get()*x)+int(self.c_vstup.get())"""
-
 
     def graf(self):
         self.roots = [self.res1, self.res2]
         self.x = np.linspace(self.res2, self.res1, 100)
+        self.y2 = self.res2**2
+        self.y1 = self.res1**2
+        #markers = [self.res1, self.res2]
         #self.roots= np.array([self.res1, self.res2])
-        self.y = self.x**2
+        self.y = (int(self.a_vstup.get())*(self.x**2))+(int(self.b_vstup.get())*self.x)+int(self.c_vstup.get())
         plt.plot(self.x, self.y)
+        plt.annotate("X1",(self.res2,self.y2))
+        plt.annotate("x2", (self.res1, self.y1))
         plt.show()
 
 
