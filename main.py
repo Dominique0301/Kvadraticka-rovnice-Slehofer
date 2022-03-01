@@ -55,7 +55,7 @@ class Application(tk.Tk):
 
         self.btn=tk.Button(self, text="Diskriminant", command=self.diskriminant)
         self.btn.grid(row=8,column=2)
-        self.btn2=tk.Button(self, text="vysledky", command=self.reseni)
+        self.btn2=tk.Button(self, text="vysledky", command=self.vysledek)
         self.btn2.grid(row=9, column=2)
         self.geometry("400x500")
 
@@ -86,19 +86,41 @@ class Application(tk.Tk):
         self.lblx1.config(text=self.res1)
         self.lblx2.config(text=self.res2)
 
+#pokud je diskriminant 0
+    def reseni_nula(self):
+        self.reseni_nul = -int(self.b_vstup.get()) / (2*int(self.a_vstup.get()))
+        self.lblx1.config(text=self.reseni_nul)
+
+#zvolí se vhodný popstup řešení
+    def vysledek(self):
+        if self.d == 0:
+            self.reseni_nula()
+        elif self.d > 0:
+            self.reseni()
+        else:
+            print("chyba")
+
 
 
     def graf(self):
-        self.roots = [self.res1, self.res2]
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1)
         self.x = np.linspace(self.res2, self.res1, 100)
-        self.y2 = self.res2**2
+        #self.y2 = self.res2**2
         self.y1 = self.res1**2
-        #markers = [self.res1, self.res2]
-        #self.roots= np.array([self.res1, self.res2])
         self.y = (int(self.a_vstup.get())*(self.x**2))+(int(self.b_vstup.get())*self.x)+int(self.c_vstup.get())
         plt.plot(self.x, self.y)
-        plt.annotate("X1",(self.res2,self.y2))
+        plt.xlim(-5,5)
+        plt.ylim(-5,5)
+        plt.annotate("X1",(self.res2,self.y1))
         plt.annotate("x2", (self.res1, self.y1))
+        ax.spines['left'].set_position('center')
+        ax.spines['bottom'].set_position('center')
+        ax.spines['right'].set_color('none')
+        ax.spines['top'].set_color('none')
+        ax.xaxis.set_ticks_position('bottom')
+        ax.yaxis.set_ticks_position('left')
+        plt.grid()
         plt.show()
 
 
